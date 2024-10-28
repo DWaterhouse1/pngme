@@ -1,14 +1,6 @@
-use snafu::prelude::*;
 use std::fmt;
 use std::str::FromStr;
-
-#[derive(Debug, Snafu)]
-pub enum ChunkTypeError {
-    #[snafu(display("Chunk types must be ASCII alphabetic bytes."))]
-    NonAlphabetic,
-    #[snafu(display("Chunk types are four bytes exactly."))]
-    InvalidLength,
-}
+use thiserror::Error;
 
 pub const CHUNK_TYPE_NUM_BYTES: usize = 4;
 type ChunkBytes = [u8; CHUNK_TYPE_NUM_BYTES];
@@ -56,6 +48,14 @@ impl ChunkType {
     }
 }
 
+#[derive(Error, Debug)]
+pub enum ChunkTypeError {
+    #[error("Can't construct chunk type from non alphabetic ascii characters.")]
+    NonAlphabetic,
+    #[error("Bytes are of invalid length: {0}, expected {}", CHUNK_TYPE_NUM_BYTES)]
+    InvalidLength(usize),
+}
+
 impl TryFrom<[u8; 4]> for ChunkType {
     type Error = ChunkTypeError;
 
@@ -72,12 +72,12 @@ impl FromStr for ChunkType {
     type Err = ChunkTypeError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let bytes: ChunkBytes = match Vec::from(s).try_into() {
-            Ok(value) => value,
-            Err(_) => return Err(ChunkTypeError::InvalidLength),
-        };
+        let chunk_bytes: ChunkBytes = s
+            .as_bytes()
+            .try_into()
+            .map_err(|_| ChunkTypeError::InvalidLength(s.len()))?;
 
-        ChunkType::try_from(bytes)
+        ChunkType::try_from(chunk_bytes)
     }
 }
 
