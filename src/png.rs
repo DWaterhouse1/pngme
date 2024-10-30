@@ -115,7 +115,7 @@ impl fmt::Display for Png {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{} chunks:\n", self.chunks.len())?;
         for (idx, chunk) in self.chunks.iter().enumerate() {
-            write!(f, "\tchunk {}: {}", idx, chunk)?;
+            write!(f, "\tchunk {}\n{}\n\n", idx, chunk)?;
         }
         Ok(())
     }
