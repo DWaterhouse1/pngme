@@ -23,26 +23,32 @@ impl ChunkType {
             == bytes.len()
     }
 
+    #[allow(dead_code)]
     fn is_bit_five_high(byte: u8) -> bool {
         (byte & 0x20) != 0
     }
 
+    #[allow(dead_code)]
     pub fn is_valid(&self) -> bool {
-        ChunkType::are_valid_bytes(self.data) && Self::is_reserved_bit_valid(&self)
+        ChunkType::are_valid_bytes(self.data) && Self::is_reserved_bit_valid(self)
     }
 
+    #[allow(dead_code)]
     pub fn is_critical(&self) -> bool {
         !Self::is_bit_five_high(self.data[0])
     }
 
+    #[allow(dead_code)]
     pub fn is_public(&self) -> bool {
         !Self::is_bit_five_high(self.data[1])
     }
 
+    #[allow(dead_code)]
     pub fn is_reserved_bit_valid(&self) -> bool {
         !Self::is_bit_five_high(self.data[2])
     }
 
+    #[allow(dead_code)]
     pub fn is_safe_to_copy(&self) -> bool {
         Self::is_bit_five_high(self.data[3])
     }

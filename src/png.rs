@@ -47,10 +47,12 @@ impl Png {
         }
     }
 
+    #[allow(dead_code)]
     pub fn header(&self) -> &[u8; 8] {
         &self.header
     }
 
+    #[allow(dead_code)]
     pub fn chunks(&self) -> &[Chunk] {
         self.chunks.as_slice()
     }
@@ -92,7 +94,7 @@ impl TryFrom<&[u8]> for Png {
 
         let mut chunks = Vec::<Chunk>::new();
 
-        let mut byte_index = header_len as usize;
+        let mut byte_index = header_len;
 
         let header = &value[..header_len];
 
@@ -113,7 +115,7 @@ impl TryFrom<&[u8]> for Png {
 
 impl fmt::Display for Png {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{} chunks:\n", self.chunks.len())?;
+        writeln!(f, "{} chunks:", self.chunks.len())?;
         for (idx, chunk) in self.chunks.iter().enumerate() {
             write!(f, "\tchunk {}\n{}\n\n", idx, chunk)?;
         }
@@ -127,7 +129,6 @@ mod tests {
     use crate::chunk::Chunk;
     use crate::chunk_type::ChunkType;
     use std::convert::TryFrom;
-    use std::str::FromStr;
 
     fn testing_chunks() -> Vec<Chunk> {
         vec![
