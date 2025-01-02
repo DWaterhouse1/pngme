@@ -1,10 +1,10 @@
 A response to [png me](https://jrdngr.github.io/pngme_book)
 
-This repo implements a small cli utility for placing, reading, and removing messages into .png files in a way that will be ignored by most typical png readers.
+This repo implements a small cli utility for emplacing, reading, and removing messages to and from .png files in a way that will be ignored by most typical png readers.
 
 ### Building
 
-This project requires the usual `rustc` and `cargo`. Installing rust with you favourite package manager is probably sufficient.
+This project requires the usual `rustc` and `cargo`. Installing rust with your favourite package manager is probably sufficient.
 
 Build simply with `cargo build`, no particular configuration required. Either run the compiled binary directly or use `cargo run`. The test suite can be run with `cargo test`.
 
@@ -15,7 +15,7 @@ There are four command line options: encode, decode, remove, and print.
 #### encode
 `./pngme encode <PATH> <CHUNK_TYPE> <MESSAGE> [OUTPUT]`
 
-This command adds a new chunk to the png file specified at `<PATH>`. The chunk will be saved with a chunk type given by `<CHUNK_TYPE>`. The chunk type must be four ascii alpha characters. Chunk types are used to identify the chunks function, so it's best to avoid colliding with commonly used chunk types such as `IDAT`. The capitalisation of each letter carriers some information about the properties of the chunk, see the [png spec](http://www.libpng.org/pub/png/spec/1.2/PNG-Structure.html) for details. A resonable choice is something like `RuSt`. The contents of the `<MESSAGE>` argument will be placed into a new chunk, appended onto the png file data. If no `[OUTPUT]` argument is specified, then the existing png file will be overwritten to add the new chunk. If an output argument is specified, the png data with the new chunk will instead be written there and the original will not be modified.
+This command adds a new chunk to the png file specified at `<PATH>`. The chunk will be saved with a chunk type given by `<CHUNK_TYPE>`. The chunk type must be four ascii alpha characters. Chunk types are used to identify the chunk's function, so it's best to avoid colliding with commonly used chunk types such as `IDAT`. The capitalisation of each letter carriers some information about the properties of the chunk, see the [png spec](http://www.libpng.org/pub/png/spec/1.2/PNG-Structure.html) for details. A reasonable choice is something like `RuSt`. The contents of the `<MESSAGE>` argument will be placed into a new chunk, appended onto the png file data. If no `[OUTPUT]` argument is specified, then the existing png file will be overwritten to add the new chunk. If an output argument is specified, the png data with the new chunk will instead be written there and the original will not be modified.
 
 #### decode
 `./pngme decode <PATH> <CHUNK_TYPE>`
